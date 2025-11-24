@@ -20,7 +20,7 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
     <div className="bet-slip">
       <div className="bet-slip__title">
         <img
-          src="../../src/assets/ticket.svg"
+          src="./src/assets/ticket.svg"
           alt="ticket"
           className="ticket-icon"
         />
