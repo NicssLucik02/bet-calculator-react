@@ -15,7 +15,39 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
     typeBet: "",
   });
 
+  console.log(currentBet);
+  
   const betTypes = ["Slots", "Poker", "Football", "Basketball", "Tennis"];
+
+  const handleBetSubmission = () => {
+    if (!validateBet(
+        currentBet.amount,
+        currentBet.coefficient,
+        currentBet.typeBet,
+      )) {
+      return;
+        }
+        
+        handleAddBet(
+          currentBet.amount,
+          currentBet.coefficient,
+          currentBet.typeBet,
+        );
+        setCurrentBet({
+          amount: "",
+          coefficient: "",
+          typeBet: "",
+        });
+  }
+
+  const handleChangeInput = (
+    event:  React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>, 
+    field: string
+  ) => setCurrentBet((prev) => ({
+          ...prev,
+                [field]: event.target.value,
+              }));
+  
   return (
     <div className="bet-slip">
       <div className="bet-slip__title">
@@ -34,12 +66,7 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
             className="bet-slip__input amount"
             placeholder="0.00"
             value={currentBet.amount}
-            onChange={(event) =>
-              setCurrentBet((prev) => ({
-                ...prev,
-                amount: event.target.value,
-              }))
-            }
+            onChange={(event) => handleChangeInput(event, "amount")}
           />
         </div>
 
@@ -50,12 +77,7 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
             className="bet-slip__input coefficient"
             placeholder="2.50"
             value={currentBet.coefficient}
-            onChange={(event) =>
-              setCurrentBet((prev) => ({
-                ...prev,
-                coefficient: event.target.value,
-              }))
-            }
+            onChange={(event) => handleChangeInput(event, "coefficient")}
           />
         </div>
 
@@ -64,18 +86,13 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
           <select
             className="bet-slip__input select"
             value={currentBet.typeBet}
-            onChange={(event) =>
-              setCurrentBet((prev) => ({
-                ...prev,
-                typeBet: event.target.value,
-              }))
-            }
+            onChange={(event) => handleChangeInput(event, "typeBet")}
           >
             <option value="" disabled>
               Select Bet type
             </option>
             {betTypes.map((item) => {
-              return <option value={item}>{item}</option>;
+              return <option key={item} value={item}>{item}</option>;
             })}
           </select>
         </div>
@@ -100,26 +117,7 @@ export const BetSlip: React.FC<Props> = ({ handleAddBet }) => {
       <button
         className="bet-slip__button"
         onClick={() => {
-          if (
-            !validateBet(
-              currentBet.amount,
-              currentBet.coefficient,
-              currentBet.typeBet,
-            )
-          ) {
-            return;
-          }
-
-          handleAddBet(
-            currentBet.amount,
-            currentBet.coefficient,
-            currentBet.typeBet,
-          );
-          setCurrentBet({
-            amount: "",
-            coefficient: "",
-            typeBet: "",
-          });
+          handleBetSubmission();
         }}
       >
         Place bet

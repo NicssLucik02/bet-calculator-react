@@ -23,7 +23,7 @@ export const BetHistory: React.FC<Props> = ({ history }) => {
         <tbody>
           {history.map((bet) => {
             return (
-              <tr>
+              <tr key={new Date().toLocaleTimeString()}>
                 <td>{new Date().toLocaleDateString()}</td>
                 <td>{bet.typeBet}</td>
                 <td>{bet.amount}</td>
